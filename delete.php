@@ -1,7 +1,7 @@
 <?php 
             $conn = mysqli_connect("localhost","admin","admin");
             $db = mysqli_select_db($conn,"admin");
-            $sql = "SELECT Doctor_Name FROM doctor";
+            $sql = "SELECT Age FROM doctor";
             $result = mysqli_query ($conn,$sql);
             if ($conn==true) {
                 echo "Successfully";
@@ -10,7 +10,7 @@
                 echo "Data";
             }
             if (mysqli_query($conn,$sql)) {
-                echo "deleted";
+                echo "selected";
             }
 ?>
 <html lang="en">
@@ -29,24 +29,23 @@
                 <select name="dropdown" id="drlist">
                     <?php 
                     while($row=mysqli_fetch_array($result)){
-                    echo "<span><option name=\"de\">".$row[0]."</option>";
+                    echo "<span><option>".$row[0]."</option>";
                 }
                 ?>
                 </select>
                 <br><br>
-                <input type="submit" value="Delete" name="submit" id="submit">
+                <button name="submit" id="submit">Delete
+<?php
+                if(isset($_GET['submit'])) {
+                    $del = $_GET['dropdown'];
+                if (mysqli_query($conn,"DELETE FROM doctor WHERE Age = $del")) {
+                echo "Data is deleted";
+            }
+            else{ echo "error occurred"; }
+}
+?>
             </form>
         </div>
     </div>
 </body>
 </html>
-                <?php
-                if(isset($_GET['Delete'])) {
-        $qry = "DELETE FROM doctor WHERE Doctor_Name = ".$_GET['de'].";";
-        $result = mysqli_query ($conn, $qry);
-        if(mysqli_affected_rows($conn) == 1)
-        echo "Record is deleted....";
-        else
-        echo "Some error occurred!!!!";
-}
-?>
